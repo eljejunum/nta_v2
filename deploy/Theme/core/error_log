@@ -1,0 +1,7 @@
+[23-Dec-2012 21:33:27] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/nta/public_html/dev/wp-content/plugins/nta-model-profiles/nta-models-profiles.php:64) in /home/nta/public_html/dev/wp-content/themes/core/imageFlowXML.php on line 42
+[23-Dec-2012 21:34:03] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/nta/public_html/dev/wp-content/plugins/nta-model-profiles/nta-models-profiles.php:64) in /home/nta/public_html/dev/wp-content/themes/core/imageFlowXML.php on line 42
+[26-Dec-2012 09:43:34] PHP Fatal error:  Call to undefined function  get_header() in /home/nta/public_html/dev/wp-content/themes/core/archive.php on line 12
+[06-Apr-2013 02:39:46] PHP Fatal error:  Call to undefined function  get_option() in /home/nta/public_html/wp-content/themes/core/index.php on line 16
+[06-Apr-2013 02:39:48] PHP Fatal error:  Call to undefined function  get_option() in /home/nta/public_html/wp-content/themes/core/index.php on line 16
+[11-May-2013 23:40:47] PHP Fatal error:  Call to undefined function  get_option() in /home/nta/public_html/wp-content/themes/core/index.php on line 16
+[11-May-2013 23:41:21] PHP Fatal error:  Call to undefined function  get_option() in /home/nta/public_html/wp-content/themes/core/index.php on line 16
