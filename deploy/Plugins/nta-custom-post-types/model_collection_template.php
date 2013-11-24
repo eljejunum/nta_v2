@@ -83,6 +83,8 @@ foreach($modelCollectionArray as $model){
 			break;
 	}
 	
+	echo $imageUse;
+	
 	$imageSource = MultiPostThumbnails::get_post_thumbnail_url(get_post_type($model_id), $imageUse, $model_id);
 	if($imageSource == null){
 		$imageUseArray = array("fashion-img", "fitness-img", "lifestyle-img");

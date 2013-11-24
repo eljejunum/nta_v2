@@ -1,18 +1,46 @@
 <?php
 /*
-Plugin Name: Model Collection
-Description: Extends the Core Photography theme for NTA models with a new page type to select an array of models.
-Requirements: Core Photography Theme, Model Profile Plugin, Meta Box Plugin (RWMB)
+Plugin Name: NTA Custom Post Types Plugin
+Description: Extends the Core Photography theme for NTA models with custom post types and templates for custom posts.
+Requirements: Core Photography Theme, Meta Box Plugin (RWMB)
 Version: 1.0
 Author: Jordan Mirrer
 Author URI: http://jordanmirrer.com
 License: GPLv2
 */
 
-add_action( 'init', 'create_model_collection');
-add_action( 'admin_init', 'register_nta_collection_meta' );
-add_filter( 'single_template', 'include_collection_template' );
+//Custom Post Type - Model
+function create_model_profile() {
+	register_post_type('models',
+		array(
+			'labels' => array(
+				'name' => 'Models',
+				'singular_name' => 'Model',
+				'add_new' => 'Add New',
+                'add_new_item' => 'Add New Model',
+                'edit' => 'Edit',
+                'edit_item' => 'Edit Model',
+                'new_item' => 'New Model',
+                'view' => 'View',
+                'view_item' => 'View Model',
+                'search_items' => 'Search Models',
+                'not_found' => 'No Models found',
+                'not_found_in_trash' => 'No Models found in Trash',
+                'parent' => 'Parent Model'
+			),
+			'public' => true,
+			'menu_position' => 15,
+            'supports' => array( 'title', /**'editor', 'thumbnail', 'page-attributes',**/ 'post-formats' ),
+            'taxonomies' => array( 'category' ),
+            'menu_icon' => plugins_url( 'NTAicon.png', __FILE__ ),
+            'map_meta_cap' => true,
+            'capability_type' => 'page',
+            'has_archive' => true		
+		)
+	);
+}
 
+//Custom Post Type - Model Collection
 function create_model_collection() {
 	register_post_type('model_collection',
 		array(
@@ -45,6 +73,7 @@ function create_model_collection() {
 	);
 }
 
+//Meta Boxes for Model Collections - allows selection of models from admin page
 function register_nta_collection_meta(){
 	if ( !class_exists( 'RW_Meta_Box' ) )
         return;
@@ -78,22 +107,19 @@ function register_nta_collection_meta(){
     	
     new RW_Meta_Box( $meta_box );	
 }
-
+/*
+* Gets all the models to feed into the NTA Collection Meta Boxes 
+*
+* @param - none
+* @return - array of all published models (of Custom Post Type models)
+*/
 function getModelArray(){
 	
 	$args = array(
 		'posts_per_page'   => -1,
-		//'offset'           => 0,
-		//'category'         => '',
 		'orderby'          => 'name',
 		'order'            => 'ASC',
-		//'include'          => '',
-		//'exclude'          => '',
-		//'meta_key'         => '',
-		//'meta_value'       => '',
 		'post_type'        => 'models',
-		//'post_mime_type'   => '',
-		//'post_parent'      => '',
 		'post_status'      => 'publish',
 		'suppress_filters' => true 
 	);
@@ -109,11 +135,34 @@ function getModelArray(){
 	return $metaArray;
 }
 
-function include_collection_template($templatePath){
-	if ( get_post_type() == 'model_collection' ) {
-		$template_path = plugin_dir_path( __FILE__ ) . '/single-model_collection.php';
-    }
-    return $template_path;
+/*
+* Bind Templates to Collection and Models
+*
+* @return - URL path as string to correct template
+*/
+function include_NTA_templates($templatePath){
+	
+	global $post;
+	$post_type = $post->post_type;
+	
+	/*if (!$post_type == 'model_collection' ) {
+		return $templatePath;
+	}*/
+	
+	if ($post_type == 'model_collection' ) {
+		$template_path = plugin_dir_path( __FILE__ ) . 'model_collection_template.php';
+	}
+	elseif ($post_type == 'models' ) {
+		$template_path = plugin_dir_path( __FILE__ ) . 'models_template.php';
+	}
+	
+	return $template_path;
+	
 }
+
+add_action( 'init', 'create_model_profile');
+add_action( 'init', 'create_model_collection');
+add_action( 'admin_init', 'register_nta_collection_meta' );
+add_filter( 'single_template', 'include_NTA_templates');
 
 ?>
