@@ -30,7 +30,7 @@ function create_model_profile() {
 			),
 			'public' => true,
 			'menu_position' => 15,
-            'supports' => array( 'title', /**'editor', 'thumbnail', 'page-attributes',**/ 'post-formats' ),
+            'supports' => array( 'title', /**'editor', 'thumbnail', **/'page-attributes', 'post-formats' ),
             'taxonomies' => array( 'category' ),
             'menu_icon' => plugins_url( 'NTAicon.png', __FILE__ ),
             'map_meta_cap' => true,
@@ -117,7 +117,7 @@ function getModelArray(){
 	
 	$args = array(
 		'posts_per_page'   => -1,
-		'orderby'          => 'name',
+		'orderby'          => 'title',
 		'order'            => 'ASC',
 		'post_type'        => 'models',
 		'post_status'      => 'publish',
