@@ -97,10 +97,16 @@ function register_nta_collection_meta(){
 				)
 			),
 			array(
-				'name' 	  => 'Select Models',
+				'name' 	  => 'Select Men',
 				'id'   	  => $prefix . 'selection',
 				'type' 	  => 'checkbox_list',
-				'options' => getModelArray()
+				'options' => getModelArray("male-models")
+			),
+			array(
+				'name' 	  => 'Select Women',
+				'id'   	  => $prefix . 'selection',
+				'type' 	  => 'checkbox_list',
+				'options' => getModelArray("female-models")
 			)
 		)
 	);
@@ -113,7 +119,7 @@ function register_nta_collection_meta(){
 * @param - none
 * @return - array of all published models (of Custom Post Type models)
 */
-function getModelArray(){
+function getModelArray($gender_slug){
 	
 	$args = array(
 		'posts_per_page'   => -1,
@@ -129,7 +135,9 @@ function getModelArray(){
 	$metaArray = array();
 	
 	for($i = 0; $i < $numModels; $i++){
-		$metaArray[$modelArray[$i]->ID] = $modelArray[$i]->post_title;
+		if (in_category($gender_slug, $modelArray[$i])) {
+			$metaArray[$modelArray[$i]->ID] = $modelArray[$i]->post_title;
+		};
 	} 
 	
 	return $metaArray;
